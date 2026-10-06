@@ -39,6 +39,7 @@ export let state = {
   profile: null,
   authMode: "login",
   authError: "",
+  authInfo: "",
   authLoading: false,
   role: "siswa",
   view: "landing",

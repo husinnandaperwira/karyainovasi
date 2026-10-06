@@ -48,13 +48,51 @@ function infoPanel() {
   </div>`;
 }
 
+function authTitle(mode) {
+  if (mode === "login") return ["Masuk", "Masuk ke CodeTrack"];
+  if (mode === "signup") return ["Daftar Akun", "Buat Akun Baru"];
+  if (mode === "forgot") return ["Lupa Password", "Reset Password"];
+  return ["Password Baru", "Atur Password Baru"];
+}
+
 export function authView() {
   const mode = state.authMode;
+  const [eyebrow, title] = authTitle(mode);
+  const messages = `${state.authError ? `<div class="auth-error">${state.authError}</div>` : ""}${state.authInfo ? `<div class="auth-info">${state.authInfo}</div>` : ""}`;
+
+  if (mode === "forgot") {
+    return `
+    <div class="card auth-wrap">
+      <div class="eyebrow">${eyebrow}</div>
+      <h2 style="margin:10px 0 18px; font-size:20px;">${title}</h2>
+      <p style="font-size:12.5px; color:var(--text-muted); margin:-8px 0 16px;">Masukkan email akun kamu (siswa maupun guru), kami akan kirimkan link untuk atur ulang password.</p>
+      ${messages}
+      <div class="auth-field"><label>Email</label><input id="authEmail" type="email" placeholder="email@contoh.com" /></div>
+      <button class="btn-primary" style="width:100%;" data-action="doForgotPassword" ${state.authLoading ? "disabled" : ""}>
+        ${state.authLoading ? "Mengirim..." : "Kirim Link Reset"}
+      </button>
+      <div class="auth-switch"><a data-action="switchAuthMode" data-mode="login">← Kembali ke Masuk</a></div>
+    </div>`;
+  }
+
+  if (mode === "recovery") {
+    return `
+    <div class="card auth-wrap">
+      <div class="eyebrow">${eyebrow}</div>
+      <h2 style="margin:10px 0 18px; font-size:20px;">${title}</h2>
+      ${messages}
+      <div class="auth-field"><label>Password Baru</label><input id="authNewPassword" type="password" placeholder="Minimal 6 karakter" /></div>
+      <button class="btn-primary" style="width:100%;" data-action="doUpdatePassword" ${state.authLoading ? "disabled" : ""}>
+        ${state.authLoading ? "Menyimpan..." : "Simpan Password Baru"}
+      </button>
+    </div>`;
+  }
+
   return `
   <div class="card auth-wrap">
-    <div class="eyebrow">${mode === "login" ? "Masuk" : "Daftar Akun"}</div>
-    <h2 style="margin:10px 0 18px; font-size:20px;">${mode === "login" ? "Masuk ke CodeTrack" : "Buat Akun Baru"}</h2>
-    ${state.authError ? `<div class="auth-error">${state.authError}</div>` : ""}
+    <div class="eyebrow">${eyebrow}</div>
+    <h2 style="margin:10px 0 18px; font-size:20px;">${title}</h2>
+    ${messages}
     ${
       mode === "signup"
         ? `
@@ -69,6 +107,7 @@ export function authView() {
     }
     <div class="auth-field"><label>Email</label><input id="authEmail" type="email" placeholder="email@contoh.com" /></div>
     <div class="auth-field"><label>Password</label><input id="authPassword" type="password" placeholder="Minimal 6 karakter" /></div>
+    ${mode === "login" ? `<div style="text-align:right; margin:-8px 0 16px;"><a data-action="switchAuthMode" data-mode="forgot" style="font-size:12px; color:var(--brand); cursor:pointer;">Lupa password?</a></div>` : ""}
     <button class="btn-primary" style="width:100%;" data-action="${mode === "login" ? "doLogin" : "doSignup"}" ${state.authLoading ? "disabled" : ""}>
       ${state.authLoading ? "Memproses..." : mode === "login" ? "Masuk" : "Daftar"}
     </button>

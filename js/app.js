@@ -1,6 +1,6 @@
 import { DIAGNOSTIC, CHALLENGES, state, getCh, setCh } from "./store.js";
 import { saveProgress, saveDiagnosticResult } from "./dataService.js";
-import { handleLogin, handleSignup, handleLogout, initAuth } from "./auth.js";
+import { handleLogin, handleSignup, handleLogout, initAuth, handleForgotPassword, handleUpdatePassword, listenAuthChanges } from "./auth.js";
 import { render } from "./views.js";
 
 document.addEventListener("click", (e) => {
@@ -13,6 +13,25 @@ document.addEventListener("click", (e) => {
   } else if (action === "switchAuthMode") {
     state.authMode = el.dataset.mode;
     state.authError = "";
+    state.authInfo = "";
+  } else if (action === "doForgotPassword") {
+    const email = document.getElementById("authEmail").value;
+    state.authLoading = true;
+    render();
+    handleForgotPassword(email).finally(() => {
+      state.authLoading = false;
+      render();
+    });
+    return;
+  } else if (action === "doUpdatePassword") {
+    const newPassword = document.getElementById("authNewPassword").value;
+    state.authLoading = true;
+    render();
+    handleUpdatePassword(newPassword).finally(() => {
+      state.authLoading = false;
+      render();
+    });
+    return;
   } else if (action === "doLogin") {
     const email = document.getElementById("authEmail").value;
     const password = document.getElementById("authPassword").value;
@@ -105,3 +124,4 @@ document.addEventListener("click", (e) => {
 
 render();
 initAuth(render);
+listenAuthChanges(render);

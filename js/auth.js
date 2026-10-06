@@ -67,3 +67,40 @@ export async function handleLogout() {
   state.profile = null;
   state.view = "landing";
 }
+
+export async function handleForgotPassword(email) {
+  state.authError = "";
+  state.authInfo = "";
+  const { error } = await sb.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + window.location.pathname,
+  });
+  if (error) {
+    state.authError = error.message;
+    return;
+  }
+  state.authInfo = "Link reset password sudah dikirim ke email kamu. Cek inbox atau folder spam.";
+}
+
+export async function handleUpdatePassword(newPassword) {
+  state.authError = "";
+  state.authInfo = "";
+  const { error } = await sb.auth.updateUser({ password: newPassword });
+  if (error) {
+    state.authError = error.message;
+    return;
+  }
+  await sb.auth.signOut();
+  state.user = null;
+  state.profile = null;
+  state.authMode = "login";
+  state.authInfo = "Password berhasil diperbarui. Silakan masuk dengan password baru kamu.";
+}
+
+export function listenAuthChanges(render) {
+  sb.auth.onAuthStateChange((event) => {
+    if (event === "PASSWORD_RECOVERY") {
+      state.authMode = "recovery";
+      render();
+    }
+  });
+}
