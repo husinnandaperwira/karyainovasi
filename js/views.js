@@ -11,8 +11,9 @@ import {
 
 export function render() {
   const app = document.getElementById("app");
+  const showTopbar = state.user && state.authMode !== "recovery";
   app.innerHTML =
-    (state.user ? topbar() : "") + (state.showInfo ? infoPanel() : "") + body();
+    (showTopbar ? topbar() : "") + (state.showInfo ? infoPanel() : "") + body();
 }
 
 function topbar() {
@@ -128,6 +129,7 @@ export function authView() {
 }
 
 function body() {
+  if (state.authMode === "recovery") return authView();
   if (!state.user) return authView();
   if (state.role === "guru") return teacherView();
   if (state.view === "landing") return landingView();
