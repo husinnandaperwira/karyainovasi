@@ -233,6 +233,7 @@ function challengePanel(level, idx) {
   const opts = item.options
     .map((opt, i) => {
       let cls = "opt";
+      if (!submitted && i === picked) cls += " picked";
       if (isCorrect && i === item.correct) cls += " correct";
       if (isWrong) {
         if (i === picked) cls += " wrong";

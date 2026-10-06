@@ -350,6 +350,15 @@ pre,
 .opt:hover {
   border-color: var(--brand);
 }
+.opt.picked {
+  border-color: var(--brand);
+  background: var(--menengah-soft);
+}
+.opt.picked .letter {
+  background: var(--brand);
+  color: #10151c;
+  border-color: var(--brand);
+}
 .opt .letter {
   width: 22px;
   height: 22px;
