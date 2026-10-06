@@ -66,6 +66,9 @@ export async function handleLogout() {
   state.user = null;
   state.profile = null;
   state.view = "landing";
+  state.authMode = "login";
+  state.authError = "";
+  state.authInfo = "";
 }
 
 export async function handleForgotPassword(email) {
