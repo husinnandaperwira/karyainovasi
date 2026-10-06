@@ -28,9 +28,10 @@ document.addEventListener("click", (e) => {
     const password = document.getElementById("authPassword").value;
     const fullName = document.getElementById("authName").value;
     const role = document.getElementById("authRole").value;
+    const kelas = role === "siswa" ? document.getElementById("authKelas").value : null;
     state.authLoading = true;
     render();
-    handleSignup(email, password, fullName, role).finally(() => {
+    handleSignup(email, password, fullName, role, kelas).finally(() => {
       state.authLoading = false;
       render();
     });

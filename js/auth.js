@@ -33,12 +33,12 @@ export async function initAuth(render) {
   render();
 }
 
-export async function handleSignup(email, password, fullName, role) {
+export async function handleSignup(email, password, fullName, role, kelas) {
   state.authError = "";
   const { data, error } = await sb.auth.signUp({
     email,
     password,
-    options: { data: { full_name: fullName, role } },
+    options: { data: { full_name: fullName, role, kelas } },
   });
   if (error) {
     state.authError = error.message;

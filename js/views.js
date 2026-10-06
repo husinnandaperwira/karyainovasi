@@ -60,7 +60,10 @@ export function authView() {
         ? `
     <div class="auth-field"><label>Nama Lengkap</label><input id="authName" type="text" placeholder="Nama kamu" /></div>
     <div class="auth-field"><label>Daftar sebagai</label>
-      <select id="authRole"><option value="siswa">Siswa</option><option value="guru">Guru</option></select>
+      <select id="authRole" onchange="document.getElementById('kelasWrap').style.display = this.value==='siswa' ? 'block' : 'none'"><option value="siswa">Siswa</option><option value="guru">Guru</option></select>
+    </div>
+    <div class="auth-field" id="kelasWrap"><label>Kelas</label>
+      <select id="authKelas"><option value="XI RPL 1">XI RPL 1</option><option value="XI RPL 2">XI RPL 2</option></select>
     </div>`
         : ""
     }
