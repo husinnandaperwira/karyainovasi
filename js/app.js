@@ -10,6 +10,12 @@ document.addEventListener("click", (e) => {
 
   if (action === "toggleInfo") {
     state.showInfo = !state.showInfo;
+  } else if (action === "togglePwd") {
+    const input = document.getElementById(el.dataset.target);
+    const isHidden = input.type === "password";
+    input.type = isHidden ? "text" : "password";
+    el.textContent = isHidden ? "Sembunyikan" : "Tampilkan";
+    return;
   } else if (action === "switchAuthMode") {
     state.authMode = el.dataset.mode;
     state.authError = "";

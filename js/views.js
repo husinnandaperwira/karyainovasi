@@ -81,7 +81,12 @@ export function authView() {
       <div class="eyebrow">${eyebrow}</div>
       <h2 style="margin:10px 0 18px; font-size:20px;">${title}</h2>
       ${messages}
-      <div class="auth-field"><label>Password Baru</label><input id="authNewPassword" type="password" placeholder="Minimal 6 karakter" /></div>
+      <div class="auth-field"><label>Password Baru</label>
+        <div class="pwd-wrap">
+          <input id="authNewPassword" type="password" placeholder="Minimal 6 karakter" />
+          <button type="button" class="pwd-toggle" data-action="togglePwd" data-target="authNewPassword">Tampilkan</button>
+        </div>
+      </div>
       <button class="btn-primary" style="width:100%;" data-action="doUpdatePassword" ${state.authLoading ? "disabled" : ""}>
         ${state.authLoading ? "Menyimpan..." : "Simpan Password Baru"}
       </button>
@@ -106,7 +111,12 @@ export function authView() {
         : ""
     }
     <div class="auth-field"><label>Email</label><input id="authEmail" type="email" placeholder="email@contoh.com" /></div>
-    <div class="auth-field"><label>Password</label><input id="authPassword" type="password" placeholder="Minimal 6 karakter" /></div>
+    <div class="auth-field"><label>Password</label>
+      <div class="pwd-wrap">
+        <input id="authPassword" type="password" placeholder="Minimal 6 karakter" />
+        <button type="button" class="pwd-toggle" data-action="togglePwd" data-target="authPassword">Tampilkan</button>
+      </div>
+    </div>
     ${mode === "login" ? `<div style="text-align:right; margin:-8px 0 16px;"><a data-action="switchAuthMode" data-mode="forgot" style="font-size:12px; color:var(--brand); cursor:pointer;">Lupa password?</a></div>` : ""}
     <button class="btn-primary" style="width:100%;" data-action="${mode === "login" ? "doLogin" : "doSignup"}" ${state.authLoading ? "disabled" : ""}>
       ${state.authLoading ? "Memproses..." : mode === "login" ? "Masuk" : "Daftar"}
